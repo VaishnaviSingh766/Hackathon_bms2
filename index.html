@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Health Assistant</title>
+  <style>
+    body {  
+      font-family: 'Segoe UI', sans-serif;  
+      margin: 0;  
+      padding: 0;  
+      background-color: #f0f4f7;  
+      color: #333;  
+      background-image: url("C:/Users/shilpa/Desktop/2nd year/mankind.jpg"); 
+      background-size: cover;  
+      background-position: center center;  
+      background-attachment: fixed;  
+    }
+
+    header {
+      background-color: rgba(0, 68, 102, 0.8); 
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 5px solid #007acc;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    .symptom-checker, .nearby-services {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    #aiResponse {
+      margin-top: 15px;
+      background-color: #e0f7fa;
+      padding: 10px;
+      border-left: 4px solid #007acc;
+      border-radius: 4px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 400px;
+      border: 0;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background-color: #ddd;
+      font-size: 0.9em;
+    }
+
+  </style>
+</head>
+<body>  
+  <header>  
+    <h1> Virtual Health Assistant</h1>  
+    <p>Reliable medical guidance for refugees and displaced communities.</p>  
+  </header>    
+
+  <main>  
+    <section class="symptom-checker">  
+      <h2>Enter Your Symptoms :</h2>  
+      <form id="symptomForm">  
+        <textarea id="symptoms" rows="5" placeholder="E.g., fever, cough, vomit..."></textarea><br>  
+        <button type="submit">Submit</button>  
+      </form>  
+      <div id="aiResponse"></div>  
+    </section>  
+
+    <section class="nearby-services">  
+      <h2>Nearby Doctors / Hospitals</h2>  
+      <iframe id="mapFrame" 
+        src="https://www.google.com/maps?q=hospitals+near+me&output=embed" 
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </section>
+  </main>    
+
+  <footer>  
+    <p>Aligned with SDG 3, 10, and 16</p>  
+  </footer>    
+
+  <script>
+    document.getElementById('symptomForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const symptoms = document.getElementById('symptoms').value.toLowerCase().trim();
+      const responseBox = document.getElementById('aiResponse');
+      const mapFrame = document.getElementById('mapFrame');
+
+      let advice = "";
+      let doctor = "";
+      let mapQuery = "hospitals near me"; // default
+
+      if (!symptoms) {
+        responseBox.innerHTML = "<strong>Please enter your symptoms.</strong>";
+        return;
+      }
+
+      // Symptom-based logic
+      if (symptoms.includes("fever") || symptoms.includes("cough") || symptoms.includes("cold")) {
+        advice = "You might have a viral infection. Please rest, stay hydrated, and monitor your temperature.";
+        doctor = "General Physician";
+        mapQuery = "general physician near me";
+      } 
+      else if (symptoms.includes("chest pain") || symptoms.includes("breath") || symptoms.includes("heart")) {
+        advice = "Your symptoms may be related to a heart or lung condition. Seek immediate medical care if severe.";
+        doctor = "Cardiologist / Pulmonologist";
+        mapQuery = "cardiologist near me";
+      } 
+      else if (symptoms.includes("stomach") || symptoms.includes("vomit") || symptoms.includes("diarrhea")) {
+        advice = "It seems like a stomach-related issue. Stay hydrated and eat light food.";
+        doctor = "Gastroenterologist";
+        mapQuery = "gastroenterologist near me";
+      }
+      else if (symptoms.includes("headache") || symptoms.includes("dizzy") || symptoms.includes("migraine")) {
+        advice = "You may be experiencing a neurological issue. Rest in a dark, quiet room.";
+        doctor = "Neurologist";
+        mapQuery = "neurologist near me";
+      }
+      else if (symptoms.includes("skin") || symptoms.includes("rash") || symptoms.includes("allergy")) {
+        advice = "It looks like a skin-related condition. Avoid allergens and keep the area clean.";
+        doctor = "Dermatologist";
+        mapQuery = "dermatologist near me";
+      }
+      else {
+        advice = "Your symptoms are not clearly matched. It's best to consult a doctor.";
+        doctor = "General Physician";
+        mapQuery = "clinics near me";
+      }
+
+      // Update Suggestions box
+      responseBox.innerHTML = `
+        <strong>Suggestions:</strong> ${advice}<br><br>
+        <strong>Suggested Doctor:</strong> ${doctor}
+      `;
+
+      // Update Google Map to show relevant doctors nearby
+      mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
+    });
+  </script>
+</body>  
+</html>
+
+</body>
+</html>
